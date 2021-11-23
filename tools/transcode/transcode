@@ -1,0 +1,51 @@
+#!/bin/bash
+cd $(dirname "${0}")
+
+MOD="${1}"
+if [ -z "${MOD}" ]; then
+	echo "Usage: ${0} <mod name>"
+	exit
+fi
+
+MODREPO=$(jq -r ".${MOD}.repo" ./modtools.json)
+if [ "${MODREPO}" = "null" ]; then
+	echo "Unknown mod \`${MOD}\`. You might have to add it to modtools.json."
+	exit
+fi
+
+ZOMBOID="${HOME}/.steam/steam/steamapps/common/ProjectZomboid/projectzomboid/media/lua/shared/Translate"
+
+cd "${ZOMBOID}"
+for LANG in *; do
+	LANGDIR="${MODREPO}/media/lua/shared/Translate/${LANG}"
+	if ! [ -d "${LANGDIR}" ]; then
+		mkdir "${LANGDIR}"
+	fi
+done
+
+cd "${MODREPO}/media/lua/shared/Translate/"
+for LANG in $(echo * | sed 's/ EN / /'); do
+	for FILE in $(echo EN/*.txt); do
+
+		LANGFILE=$(basename $(echo "${FILE}" | sed -e "s/_EN/_${LANG}/" -e 's/\.txt$/.utf8.txt/'))
+		if ! [ -f "${LANG}/${LANGFILE}" ]; then
+			cp "${FILE}" "${LANG}/${LANGFILE}"
+			sed -i "s/_EN/_${LANG}/" "${LANG}/${LANGFILE}"
+		fi
+	done
+done
+
+for LANG in $(echo * | sed 's/ EN / /'); do
+
+	CHARSET=$(grep charset "${ZOMBOID}/${LANG}/language.txt" | awk '{ print $3 }' | tr -d ',')
+	echo "Transcoding ${LANG} from UTF-8 to ${CHARSET}"
+	for FILE in $(echo ${LANG}/*.utf8.txt); do
+
+		if [ -f "${FILE}" ]; then
+			iconv -f utf8 -t ${CHARSET} ${FILE} > $(echo ${FILE} | sed 's/\.utf8\.txt$/.txt/')
+		else
+			echo "Missing UTF-8 for language ${LANG}"
+		fi
+	done
+
+done

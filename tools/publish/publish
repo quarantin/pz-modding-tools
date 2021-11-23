@@ -1,0 +1,35 @@
+#!/bin/bash
+cd $(dirname "${0}")
+
+MOD="${1}"
+VERSION="${2}"
+if [ -z "${MOD}" ] || [ -z "${VERSION}" ]; then
+	echo "Usage: ${0} <mod name> <version>"
+	exit
+fi
+
+MODNAME=$(jq -r ".${MOD}.name" ./modtools.json)
+MODREPO=$(jq -r ".${MOD}.repo" ./modtools.json)
+if [ "${MODNAME}" = "null" ] || [ "${MODREPO}" = "null" ]; then
+	echo "Unknown mod \`${MOD}\`. You might have to add it to modtools.json"
+	exit
+fi
+
+cd "${MODREPO}"
+
+ZOMBOID="${HOME}/Zomboid"
+
+# Export mod to workshop folder
+TARGET="${ZOMBOID}/Workshop/${MOD}/Contents/mods/${MOD}/"
+mkdir -p "${TARGET}"
+rm -rf "${TARGET}"
+git checkout-index -a -f --prefix="${TARGET}"
+
+# Updating version for mod.info
+cd "${TARGET}"
+sed -i "s/^name=${MODNAME}.*$/name=${MODNAME} (v${VERSION})/" mod.info
+
+# Updating version for workshop.txt
+cd "${ZOMBOID}/Workshop/${MOD}"
+sed -i "s/^version=.*$/version=${VERSION}/" workshop.txt
+sed -i "s/^description=Latest version:.*$/description=Latest version: ${VERSION}/" workshop.txt

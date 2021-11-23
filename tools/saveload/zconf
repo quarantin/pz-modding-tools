@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DATE=$(date +%Y%m%d-%H%M%S)
+ZOMBOID_ROOT="${HOME}/Zomboid"
+ZOMBOID_SAVE="${ZOMBOID_ROOT}/Saves"
+ZOMBOID_BACKUP="${ZOMBOID_ROOT}/Saves.backup"

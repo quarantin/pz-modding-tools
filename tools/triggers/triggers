@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ -z "${1}" ]; then
+	echo "Usage: ${0} <EventName>"
+	exit
+fi
+
+IFS="
+"
+
+LINES=($(grep -Rn "\(triggerEvent.*\|TriggerHook\)(\"${1}\""))
+LINESSZ=${#LINES[@]}
+WELCOME="echo '${LINESSZ} matching lines.'"
+
+for line in "${LINES[@]}"; do
+
+	FILE=$(echo $line | cut -f1 -d:)
+	LINE=$(echo $line | cut -f2 -d:)
+
+	vim -c "${WELCOME}" "${FILE}" +"${LINE}"
+	WELCOME=''
+done

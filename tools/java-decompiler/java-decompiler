@@ -1,0 +1,7 @@
+#!/bin/bash
+
+JAR=/opt/java-decompiler/java-decompiler.jar
+MAIN=org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler
+
+java -cp "${JAR}" "${MAIN}" "${@}"
+

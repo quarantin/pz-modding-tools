@@ -1,0 +1,6 @@
+#!/bin/bash
+cd $(dirname ${0})
+. zconf
+
+mv "${ZOMBOID_SAVE}" "/tmp/Saves.${DATE}"
+cp -a "${ZOMBOID_BACKUP}" "${ZOMBOID_SAVE}"

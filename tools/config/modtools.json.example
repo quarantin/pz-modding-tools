@@ -1,0 +1,14 @@
+{
+	"MyFirstModId": {
+		"name": "My First Mod Name",
+		"repo": "/path/to/my/first/mod/repo"
+	},
+	"MySecondModId": {
+		"name": "My Second Mod Name",
+		"repo": "/path/to/my/second/mod/repo"
+	},
+	"MyThirdModId": {
+		"name": "My Third Mod Name",
+		"repo": "/path/to/my/third/mod/repo"
+	}
+}
