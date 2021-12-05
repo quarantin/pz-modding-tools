@@ -28,6 +28,7 @@ git checkout-index -a -f --prefix="${TARGET}"
 # Updating version for mod.info
 cd "${TARGET}"
 sed -i "s/^name=${MODNAME}.*$/name=${MODNAME} (v${VERSION})/" mod.info
+find . \( -iname '*.utf8.txt' -or -iname 'README.md' -or -iname 'TODO' \) -delete
 
 # Updating version for workshop.txt
 cd "${ZOMBOID}/Workshop/${MOD}"
