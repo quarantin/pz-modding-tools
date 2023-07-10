@@ -43,7 +43,13 @@ done
 
 for LANG in $(echo * | sed 's/ EN / /'); do
 
-	CHARSET=$(grep charset "${ZOMBOID}/${LANG}/language.txt" | awk '{ print $3 }' | tr -d ',')
+	LANGPATH="${ZOMBOID}/${LANG}/language.txt"
+	if ! [ -f "${LANGPATH}" ]; then
+		echo "Skipping unsupported language ${LANG}."
+		continue
+	fi
+
+	CHARSET=$(grep charset "${LANGPATH}" | awk '{ print $3 }' | tr -d ',')
 	echo "Transcoding ${LANG} from UTF-8 to ${CHARSET}"
 	for FILE in $(echo ${LANG}/*.utf8.txt); do
 
