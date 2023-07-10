@@ -1,4 +1,4 @@
-# Trasncode
+# Transcode
 
 ## Description
 A script to transcode Project Zomboid translation files to correct charset according to language.
