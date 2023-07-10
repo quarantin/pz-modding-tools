@@ -38,5 +38,5 @@ find . \( -iname '*.utf8.txt' -or -iname 'README.md' -or -iname 'TODO' \) -delet
 
 # Updating version for workshop.txt
 cd "${ZOMBOID}/Workshop/${MOD}"
-sed -i "s/^version=.*$/version=${VERSION}/" workshop.txt
+sed "s/^version=.*$/version=${VERSION}/" "${MODREPO}/workshop.txt" > workshop.txt
 sed -i "s/^description=Latest version:.*$/description=Latest version: ${VERSION}/" workshop.txt
