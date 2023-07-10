@@ -7,7 +7,13 @@ if [ -z "${MOD}" ]; then
 	exit
 fi
 
-MODREPO=$(jq -r ".${MOD}.repo" ./modtools.json)
+if ! [ -f "./modtools.json" ]; then
+	echo modtools.json is missing. For instructions about how to set it up, please visit:
+	echo https://github.com/quarantin/pz-modding-tools/blob/main/tools/config/README.md
+	exit
+fi
+
+MODREPO=$(jq -r ".${MOD}.repo" ./modtools.json || echo null)
 if [ "${MODREPO}" = "null" ]; then
 	echo "Unknown mod \`${MOD}\`. You might have to add it to modtools.json."
 	exit
