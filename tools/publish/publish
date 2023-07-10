@@ -8,6 +8,12 @@ if [ -z "${MOD}" ] || [ -z "${VERSION}" ]; then
 	exit
 fi
 
+if ! [ -f "./modtools.json" ]; then
+	echo modtools.json is missing. For instructions about how to set it up, please visit:
+	echo https://github.com/quarantin/pz-modding-tools/blob/main/tools/config/README.md
+	exit
+fi
+
 MODNAME=$(jq -r ".${MOD}.name" ./modtools.json)
 MODREPO=$(jq -r ".${MOD}.repo" ./modtools.json)
 if [ "${MODNAME}" = "null" ] || [ "${MODREPO}" = "null" ]; then
