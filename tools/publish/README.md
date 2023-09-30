@@ -15,6 +15,7 @@ A script to export your git repository to Project Zomboid Workshop directory, re
 		cp -a modtools.json /usr/local/bin
 
 ## Install
+- sudo apt install dos2unix
 - Follow the instructions to install modtools.json
 - Change directory to this repo:
 		MODTOOLS=/path/to/this/repo
